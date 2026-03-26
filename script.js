@@ -1,4 +1,4 @@
-const api="https://api.themoviedb.org/3/movie/upcoming?api_key=950726300c0085cae525f81415141462&page=1"
+const api="https://api.themoviedb.org/3/movie/popular?api_key=950726300c0085cae525f81415141462&page=1"
 //Variables
 let page=1
 //functions
