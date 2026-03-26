@@ -21,7 +21,7 @@ This project focuses on implementing core web development concepts such as API i
 
 ### OMDb API (Open Movie Database)
 
-* API Link: https://www.omdbapi.com/
+* API Link: https://developer.themoviedb.org/docs/getting-started
 * The API provides:
 
   * Movie titles
