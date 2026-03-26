@@ -18,5 +18,4 @@ async function getData(api){
     })
 }
 //Event Listners
-
 getData(api)
