@@ -1,20 +1,25 @@
-.movies-container {
+.movie-container {
   display: flex;
-  overflow-x: auto;
   gap: 15px;
   padding: 20px;
 }
 
-.movie-card {
-  min-width: 150px;
-  color: white;
-}
-
-.movie-card img {
-  width: 100%;
+.movieCard{
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
+  transition: 0.3s ease;
 }
-
-.movie-card h3 {
-  font-size: 14px;
+.movieCard:hover{
+    transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+.movieImage{
+    border-radius: 10px;
+    height: 200px;
+    width: 150px;
+}
+.movieTitle{
+font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
 }
