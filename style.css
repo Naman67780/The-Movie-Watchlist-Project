@@ -19,7 +19,12 @@
     width: 150px;
 }
 .movieTitle{
-font-family: 'Poppins', sans-serif;
-  font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+}
+.movieRating{
+    font-family: 'Roboto', sans-serif;
+  font-weight: bold;
   font-size: 12px;
 }
