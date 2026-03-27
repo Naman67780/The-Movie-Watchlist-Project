@@ -25,6 +25,12 @@
     font-weight: 600;
     font-size: 12px;
     text-decoration: none;
+    color: black;
+}
+.movieTitle:hover{
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
 }
 .movieRating{
     font-family: 'Roboto', sans-serif;
