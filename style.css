@@ -1,14 +1,17 @@
 .movie-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
+  gap: 10px;
 }
 
 .movieCard{
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   transition: 0.3s ease;
-  padding: 10px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .movieCard:hover{
     transform: translateY(-5px);
@@ -16,21 +19,24 @@
 }
 .movieImage{
     border-radius: 10px;
-    height: 200px;
-    width: 150px;
+    height: 150px;
+    width: 110px;
     margin-left: 13px;
 }
 .movieTitle{
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 8px;
     text-decoration: none;
     color: black;
 }
 .movieTitle:hover{
-  color: blue;
-  text-decoration: underline;
+  color: #f5c518;
   cursor: pointer;
+}
+.movieTitle:active{
+  color: #ff9800;
+  transform: scale(0.97);
 }
 .movieRating{
     font-family: 'Roboto', sans-serif;
