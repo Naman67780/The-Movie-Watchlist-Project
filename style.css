@@ -49,6 +49,6 @@
 .movieDetails{
 display: flex;
 flex-direction: column;
-width: 120px;
+width: 125px;
 align-items: self-start;
 }

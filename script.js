@@ -2,8 +2,8 @@ const api="https://api.themoviedb.org/3/movie/popular?api_key=950726300c0085cae5
 //Variables
 let page=1
 //functions
-async function getData(api){
-    const response=await fetch(api)
+async function getData(){
+    const response=await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=950726300c0085cae525f81415141462&page=${page}`)
     const data=await response.json()
     const movieDiv=document.getElementById("movies")
     data.results.forEach((movie)=>{
@@ -20,4 +20,10 @@ async function getData(api){
     })
 }
 //Event Listners
-getData(api)
+window.addEventListener("scroll", () => {
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+    page++;
+    getData();
+  }
+});
+getData()
