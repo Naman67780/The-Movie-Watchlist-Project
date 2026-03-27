@@ -11,8 +11,8 @@ async function getData(api){
         const movieCard=document.createElement("div")
         movieCard.className="movieCard"
         movieCard.innerHTML=`
-        <img src="${poster}" class="movieImage"/>
-        <h3 class="movieTitle">${movie.title}</h3>
+        <img src="${poster}" class="movieImage" alt="${movie.title}"/>
+        <a class="movieTitle" href="https://www.themoviedb.org/movie/${movie.id}">${movie.title}</a>
         <p class="movieRating">Rating⭐: ${movie.vote_average}</p>`
         movieDiv.appendChild(movieCard)
     })
