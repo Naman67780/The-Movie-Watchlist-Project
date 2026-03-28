@@ -9,17 +9,31 @@ async function getData(){
     data.results.forEach((movie)=>{
         const poster = "https://image.tmdb.org/t/p/w200" + movie.poster_path;
         const movieCard=document.createElement("div")
+        const movieId=movie.id
         movieCard.className="movieCard"
         movieCard.innerHTML=`
         <img src="${poster}" class="movieImage" alt="${movie.title}"/>
         <div class="movieDetails">
         <a class="movieTitle" href="https://www.themoviedb.org/movie/${movie.id}" target="_blank">${movie.title}</a>
         <p class="movieRating">Rating⭐: ${movie.vote_average}</p>
+        <p></p>
         </div>`
-        movieDiv.appendChild(movieCard)
+      movieDiv.appendChild(movieCard)
+      async function getmovieGenre(movieId){
+      let response=await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=950726300c0085cae525f81415141462`)
+      let data=await response.json()
+      const genres=data.genres.map((g)=>g.name).join(",")
+      console.log(genres)
+      movieCard.innerHTML+=`
+      <p class="movieGenre">${genres}</p>`
+    }
+    getmovieGenre(movieId)
     })
+ 
 }
+
 //Event Listners
+//Infinite scroll Feature
 window.addEventListener("scroll", () => {
   if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
     page++;
