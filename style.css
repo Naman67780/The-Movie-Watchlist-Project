@@ -85,7 +85,7 @@ body::before {
 
   background: radial-gradient(
     circle,
-    rgba(245, 197, 24, 0.163),
+    rgba(245, 197, 24, 0.442),
     transparent 60%
   );
 
@@ -102,10 +102,19 @@ body::after {
 
   background: radial-gradient(
     circle,
-    rgba(255, 0, 100, 0.08),
+    rgba(255, 0, 102, 0.319),
     transparent 60%
   );
 
   filter: blur(120px);
   z-index: -1;
+}
+@keyframes moveGlow {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(100px, 50px); }
+  100% { transform: translate(0, 0); }
+}
+
+body::before {
+  animation: moveGlow 10s infinite ease-in-out;
 }
