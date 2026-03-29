@@ -52,3 +52,12 @@ flex-direction: column;
 width: 125px;
 align-items: self-start;
 }
+.movieGenre{
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-size: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+}
