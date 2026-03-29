@@ -22,8 +22,8 @@ async function getData(){
       let response=await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=950726300c0085cae525f81415141462`)
       let data=await response.json()
       const genres=data.genres.map((g)=>g.name).join(",")
-      movieCard.innerHTML+=`
-      <p class="movieGenre">Genre: ${genres}</p>`
+      // movieCard.innerHTML+=`
+      // <p class="movieGenre">Genre: ${genres}</p>`
     }
     getmovieGenre(movieId)
     })
