@@ -24,7 +24,7 @@ body::after {
 body::before {
   top: -200px;
   left: -200px;
-  background: radial-gradient(circle, rgba(140, 0, 255, 0.25), transparent 60%);
+  background: radial-gradient(circle, rgba(140, 0, 255, 0.311), transparent 60%);
   animation: float1 18s ease-in-out infinite alternate;
 }
 
@@ -117,4 +117,15 @@ align-items: self-start;
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
+}
+@media (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    font-size: 18px;
+  }
 }
