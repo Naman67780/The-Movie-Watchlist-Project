@@ -3,13 +3,11 @@ body {
   padding: 0;
   font-family: 'Roboto', sans-serif;
   color: white;
-
 }
 body {
   background: #050505;
   color: white;
 }
-
 body::before,
 body::after {
   content: "";
@@ -20,32 +18,26 @@ body::after {
   z-index: -1;
   opacity: 0.6;
 }
-
 body::before {
   top: -200px;
   left: -200px;
   background: radial-gradient(circle, rgba(140, 0, 255, 0.311), transparent 60%);
   animation: float1 18s ease-in-out infinite alternate;
 }
-
 body::after {
   bottom: -200px;
   right: -200px;
   background: radial-gradient(circle, rgba(0, 180, 255, 0.2), transparent 60%);
   animation: float2 20s ease-in-out infinite alternate;
 }
-
 @keyframes float1 {
   0% { transform: translate(0,0); }
   100% { transform: translate(120px, 80px); }
 }
-
 @keyframes float2 {
   0% { transform: translate(0,0); }
   100% { transform: translate(-120px, -80px); }
 }
-
-
 .movie-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
@@ -67,7 +59,7 @@ body::after {
 
 }
 .movieCard:hover{
-    transform: translateY(-5px);
+    transform: translateY(-8px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   
 }
@@ -103,8 +95,6 @@ body::after {
   margin-left: 10px;
   color: #f5c518;
   font-size: 10px;
-
-
 }
 .movieDetails{
 display: flex;
@@ -117,6 +107,7 @@ flex-wrap: wrap;
   font-family: 'Roboto', sans-serif;
   font-weight: bold;
   font-size: 9px;
+  color: #f5f2f2d4;
   margin-left: 10px;
   text-decoration: underline;
   line-height: 1.3;
@@ -129,10 +120,13 @@ flex-wrap: wrap;
     font-size: 16px;
   }
 }
-
 @media (min-width: 1024px) {
   body {
     font-size: 18px;
   }
 }
-
+.watchListButton{
+  width: auto;
+  height: 20px;
+  font-size: 6px;
+}
