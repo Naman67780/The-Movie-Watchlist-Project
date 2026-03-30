@@ -11,19 +11,19 @@ async function getData(){
         const movieCard=document.createElement("div")
         const movieId=movie.id
         movieCard.className="movieCard"
+        async function getmovieGenre(movieId){
+          let response=await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=950726300c0085cae525f81415141462`)
+          let data=await response.json()
+          const genres=data.genres.map((g)=>g.name).join(",")
         movieCard.innerHTML=`
         <img src="${poster}" class="movieImage" alt="${movie.title}"/>
         <div class="movieDetails">
         <a class="movieTitle" href="https://www.themoviedb.org/movie/${movie.id}" target="_blank">${movie.title}</a>
         <p class="movieRating">Rating⭐: ${movie.vote_average}</p>
+        <p class="movieGenres">${genres}</p>
         </div>`
       movieDiv.appendChild(movieCard)
-      async function getmovieGenre(movieId){
-      let response=await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=950726300c0085cae525f81415141462`)
-      let data=await response.json()
-      const genres=data.genres.map((g)=>g.name).join(",")
-      // movieCard.innerHTML+=`
-      // <p class="movieGenre">Genre: ${genres}</p>`
+
     }
     getmovieGenre(movieId)
     })
