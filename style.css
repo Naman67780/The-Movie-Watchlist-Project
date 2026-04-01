@@ -83,6 +83,7 @@ body::after {
 .movieTitle:hover{
   color: #f5c518;
   cursor: pointer;
+  text-decoration: underline;
 }
 .movieTitle:active{
   color: #ff9800;
