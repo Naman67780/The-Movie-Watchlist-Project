@@ -65,7 +65,10 @@ body::after {
 }
 .movieImage{
     border-radius: 10px;
-    height: 150px;
+    width: 100%;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    height: auto;
     box-shadow: 0 8px 18px rgba(0,0,0,0.7);
     width: 100%;
     max-width: 110px;
@@ -125,9 +128,4 @@ flex-wrap: wrap;
   body {
     font-size: 18px;
   }
-}
-.watchListButton{
-  width: auto;
-  height: 20px;
-  font-size: 6px;
 }
