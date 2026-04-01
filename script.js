@@ -21,10 +21,9 @@ async function getData(){
         <a class="movieTitle" href="https://www.themoviedb.org/movie/${movie.id}" target="_blank">${movie.title}</a>
         <p class="movieRating">Rating⭐: ${movie.vote_average}</p>
         <p class="movieGenres">${genres}</p>
-        <button class="watchListButton">Add to Watchlist</button>
         </div>`
-      movieDiv.appendChild(movieCard)
-    }
+      }
+    movieDiv.appendChild(movieCard)
     getmovieGenre(movieId)
     })
  
