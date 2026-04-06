@@ -1,7 +1,10 @@
 const api="https://api.themoviedb.org/3/movie/popular?api_key=950726300c0085cae525f81415141462&page=1"
 //Variables
+renderWatchlist();
 let page=1
 let isLoading=false
+let isSearchMode = false;
+let currentQuery = "";
 const genreMap = {
   28: "Action",
   12: "Adventure",
@@ -29,7 +32,15 @@ async function getData() {
   if (isLoading || page>500) return;
   isLoading = true;
   try {
-    const response = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=950726300c0085cae525f81415141462&page=${page}`);
+     let url;
+
+if (isSearchMode) {
+  url = `https://api.themoviedb.org/3/search/movie?api_key=950726300c0085cae525f81415141462&query=${currentQuery}&page=${page}`;
+} else {
+  url = `https://api.themoviedb.org/3/movie/popular?api_key=950726300c0085cae525f81415141462&page=${page}`;
+}
+
+const response = await fetch(url);
     const data = await response.json();
     const movieDiv = document.getElementById("movies");
     data.results.forEach((movie) => {
@@ -50,10 +61,18 @@ async function getData() {
           </a>
           <p class="movieRating">⭐ ${movie.vote_average}</p>
           <p class="movieGenres">${genres}</p>
+          <button class="watchBtn" data-id="${movie.id}">
+      + Watchlist
+    </button>
         </div>
       `;
 
       movieDiv.appendChild(movieCard);
+    const btn = movieCard.querySelector(".watchBtn");
+
+  btn.addEventListener("click", () => {
+  addToWatchlist(movie);
+});
     });
 
   } catch (err) {
@@ -62,9 +81,92 @@ async function getData() {
     isLoading = false;
   }
 }
+function getWatchlist() {
+  return JSON.parse(localStorage.getItem("watchlist")) || [];
+}
+
+function saveWatchlist(list) {
+  localStorage.setItem("watchlist", JSON.stringify(list));
+}
+
+function addToWatchlist(movie) {
+  let list = getWatchlist();
+
+  // prevent duplicates
+  if (list.some(item => item.id === movie.id)) {
+    alert("Already in watchlist 😄");
+    return;
+  }
+
+  list.push(movie);
+  saveWatchlist(list);
+
+  alert("Added to watchlist ✅");
+}
 
 //Event Listners
 //Infinite scroll Feature
+document.getElementById("searchBtn").addEventListener("click", () => {
+  const input = document.getElementById("searchInput").value.trim();
+
+  if (input === "") return;
+
+  // switch to search mode
+  isSearchMode = true;
+  currentQuery = input;
+  page = 1;
+
+  // clear old movies
+  document.getElementById("movies").innerHTML = "";
+
+  getData();
+});
+const sidebar = document.getElementById("watchlistSidebar");
+const toggleBtn = document.getElementById("toggleWatchlist");
+
+toggleBtn.addEventListener("click", () => {
+  sidebar.classList.toggle("active");
+});
+function renderWatchlist() {
+  const list = getWatchlist();
+  const container = document.getElementById("watchlistItems");
+
+  container.innerHTML = "";
+
+  if (list.length === 0) {
+    container.innerHTML = "<p>No movies added 😢</p>";
+    return;
+  }
+
+  list.forEach(movie => {
+    const item = document.createElement("div");
+    item.className = "watchItem";
+
+    const poster = movie.poster_path
+      ? "https://image.tmdb.org/t/p/w200" + movie.poster_path
+      : "";
+
+    item.innerHTML = `
+      <img src="${poster}" />
+      <p>${movie.title}</p>
+    `;
+
+    container.appendChild(item);
+  });
+}
+function addToWatchlist(movie) {
+  let list = getWatchlist();
+
+  if (list.some(item => item.id === movie.id)) {
+    alert("Already added 😄");
+    return;
+  }
+
+  list.push(movie);
+  saveWatchlist(list);
+
+  renderWatchlist(); // 🔥 update instantly
+}
 window.addEventListener("scroll", () => {
   console.log("scrolling...");
   if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
