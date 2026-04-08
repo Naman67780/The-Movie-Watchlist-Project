@@ -335,4 +335,8 @@ window.addEventListener("scroll", () => {
     getData()
   }
 });
+document.getElementById("clearWatchlist").addEventListener("click", () => {
+  localStorage.removeItem("watchlist");
+  renderWatchlist();
+});
 getData()
