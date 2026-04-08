@@ -5,6 +5,7 @@ let page=1
 let isLoading=false
 let isSearchMode = false;
 let currentQuery = "";
+let allLoadedMovies = [];
 const genreMap = {
   28: "Action",
   12: "Adventure",
@@ -66,7 +67,7 @@ const response = await fetch(url);
     </button>
         </div>
       `;
-
+      allLoadedMovies.push(movie);
       movieDiv.appendChild(movieCard);
     const btn = movieCard.querySelector(".watchBtn");
 
@@ -91,8 +92,6 @@ function saveWatchlist(list) {
 
 function addToWatchlist(movie) {
   let list = getWatchlist();
-
-  // prevent duplicates
   if (list.some(item => item.id === movie.id)) {
     alert("Already in watchlist 😄");
     return;
@@ -106,16 +105,73 @@ function addToWatchlist(movie) {
 
 //Event Listners
 //Infinite scroll Feature
-// ---- SEARCH DROPDOWN WITH DEBOUNCE ----
+// ---- GENRE FILTER ----
 
+const genreFilter = document.getElementById("genreFilter");
+const badge = document.getElementById("activeFilterBadge");
+
+genreFilter.addEventListener("change", () => {
+  const selectedGenreId = Number(genreFilter.value);
+  const selectedGenreName = genreFilter.options[genreFilter.selectedIndex].text;
+
+  const movieDiv = document.getElementById("movies");
+  movieDiv.innerHTML = ""; // clear current display
+
+  // Use .filter() HOF — filters from all loaded movies
+  const filtered = selectedGenreId
+    ? allLoadedMovies.filter(movie => movie.genre_ids.includes(selectedGenreId))
+    : allLoadedMovies;
+
+  // Show badge
+  if (selectedGenreId) {
+    badge.textContent = `Showing: ${selectedGenreName} (${filtered.length} movies)`;
+    badge.style.display = "block";
+  } else {
+    badge.style.display = "none";
+  }
+
+  if (filtered.length === 0) {
+    movieDiv.innerHTML = `<p style="color:#aaa; text-align:center; grid-column:1/-1;">
+      No movies found for this genre. Scroll down to load more!
+    </p>`;
+    return;
+  }
+
+  // Re-render filtered movies using .map() HOF
+  filtered.map(movie => {
+    const poster = movie.poster_path
+      ? "https://image.tmdb.org/t/p/w200" + movie.poster_path
+      : "";
+    const genres = movie.genre_ids
+      .map(id => genreMap[id] || "Unknown")
+      .join(", ");
+
+    const movieCard = document.createElement("div");
+    movieCard.className = "movieCard";
+    movieCard.innerHTML = `
+      <img src="${poster}" class="movieImage" alt="${movie.title}"/>
+      <div class="movieDetails">
+        <a href="https://www.themoviedb.org/movie/${movie.id}" target="_blank" class="movieTitle">
+          ${movie.title}
+        </a>
+        <p class="movieRating">⭐ ${movie.vote_average}</p>
+        <p class="movieGenres">${genres}</p>
+        <button class="watchBtn" data-id="${movie.id}">+ Watchlist</button>
+      </div>
+    `;
+    movieDiv.appendChild(movieCard);
+
+    movieCard.querySelector(".watchBtn").addEventListener("click", () => {
+      addToWatchlist(movie);
+    });
+  });
+});
 const searchInput = document.getElementById("searchInput");
 const searchDropdown = document.getElementById("searchDropdown");
 let debounceTimer;
 
 searchInput.addEventListener("input", () => {
   const query = searchInput.value.trim();
-
-  // Clear previous timer on every keystroke (debounce)
   clearTimeout(debounceTimer);
 
   if (query === "") {
@@ -123,8 +179,6 @@ searchInput.addEventListener("input", () => {
     searchDropdown.innerHTML = "";
     return;
   }
-
-  // Wait 400ms after user stops typing before calling API
   debounceTimer = setTimeout(() => {
     fetchSuggestions(query);
   }, 400);
@@ -136,16 +190,12 @@ async function fetchSuggestions(query) {
   try {
     const response = await fetch(url);
     const data = await response.json();
-
-    // Take only the top 6 results for the dropdown
     const suggestions = data.results.slice(0, 6);
 
     if (suggestions.length === 0) {
       searchDropdown.style.display = "none";
       return;
     }
-
-    // Build dropdown HTML
     searchDropdown.innerHTML = suggestions
       .map(movie => {
         const poster = movie.poster_path
@@ -162,13 +212,11 @@ async function fetchSuggestions(query) {
       .join("");
 
     searchDropdown.style.display = "block";
-
-    // Clicking a suggestion fills input and triggers search
     searchDropdown.querySelectorAll(".dropdown-item").forEach(item => {
       item.addEventListener("click", () => {
         searchInput.value = item.dataset.title;
         searchDropdown.style.display = "none";
-        document.getElementById("searchBtn").click(); // trigger search
+        document.getElementById("searchBtn").click(); 
       });
     });
 
@@ -176,8 +224,6 @@ async function fetchSuggestions(query) {
     console.log("Dropdown error:", err);
   }
 }
-
-// Hide dropdown when clicking anywhere outside
 document.addEventListener("click", (e) => {
   if (!e.target.closest(".search-wrapper")) {
     searchDropdown.style.display = "none";
