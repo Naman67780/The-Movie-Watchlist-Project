@@ -106,17 +106,89 @@ function addToWatchlist(movie) {
 
 //Event Listners
 //Infinite scroll Feature
+// ---- SEARCH DROPDOWN WITH DEBOUNCE ----
+
+const searchInput = document.getElementById("searchInput");
+const searchDropdown = document.getElementById("searchDropdown");
+let debounceTimer;
+
+searchInput.addEventListener("input", () => {
+  const query = searchInput.value.trim();
+
+  // Clear previous timer on every keystroke (debounce)
+  clearTimeout(debounceTimer);
+
+  if (query === "") {
+    searchDropdown.style.display = "none";
+    searchDropdown.innerHTML = "";
+    return;
+  }
+
+  // Wait 400ms after user stops typing before calling API
+  debounceTimer = setTimeout(() => {
+    fetchSuggestions(query);
+  }, 400);
+});
+
+async function fetchSuggestions(query) {
+  const url = `https://api.themoviedb.org/3/search/movie?api_key=950726300c0085cae525f81415141462&query=${query}&page=1`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    // Take only the top 6 results for the dropdown
+    const suggestions = data.results.slice(0, 6);
+
+    if (suggestions.length === 0) {
+      searchDropdown.style.display = "none";
+      return;
+    }
+
+    // Build dropdown HTML
+    searchDropdown.innerHTML = suggestions
+      .map(movie => {
+        const poster = movie.poster_path
+          ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
+          : "https://via.placeholder.com/32x46?text=N/A";
+
+        return `
+          <div class="dropdown-item" data-title="${movie.title}">
+            <img src="${poster}" alt="${movie.title}" />
+            <span>${movie.title}</span>
+          </div>
+        `;
+      })
+      .join("");
+
+    searchDropdown.style.display = "block";
+
+    // Clicking a suggestion fills input and triggers search
+    searchDropdown.querySelectorAll(".dropdown-item").forEach(item => {
+      item.addEventListener("click", () => {
+        searchInput.value = item.dataset.title;
+        searchDropdown.style.display = "none";
+        document.getElementById("searchBtn").click(); // trigger search
+      });
+    });
+
+  } catch (err) {
+    console.log("Dropdown error:", err);
+  }
+}
+
+// Hide dropdown when clicking anywhere outside
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".search-wrapper")) {
+    searchDropdown.style.display = "none";
+  }
+});
 document.getElementById("searchBtn").addEventListener("click", () => {
   const input = document.getElementById("searchInput").value.trim();
-
   if (input === "") return;
-
-  // switch to search mode
   isSearchMode = true;
   currentQuery = input;
   page = 1;
-
-  // clear old movies
   document.getElementById("movies").innerHTML = "";
 
   getData();
@@ -165,7 +237,7 @@ function addToWatchlist(movie) {
   list.push(movie);
   saveWatchlist(list);
 
-  renderWatchlist(); // 🔥 update instantly
+  renderWatchlist(); 
 }
 window.addEventListener("scroll", () => {
   console.log("scrolling...");
