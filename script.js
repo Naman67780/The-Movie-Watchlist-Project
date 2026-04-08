@@ -269,6 +269,53 @@ function addToWatchlist(movie) {
 
   renderWatchlist(); 
 }
+const sortSelect = document.getElementById("sortSelect");
+
+sortSelect.addEventListener("change", () => {
+  const type = sortSelect.value;
+
+  let sorted = [...allLoadedMovies];
+
+  if (type === "rating") {
+    sorted.sort((a, b) => b.vote_average - a.vote_average);
+  } else if (type === "title") {
+    sorted.sort((a, b) => a.title.localeCompare(b.title));
+  }
+
+  const movieDiv = document.getElementById("movies");
+  movieDiv.innerHTML = "";
+
+  sorted.forEach((movie) => {
+    const poster = movie.poster_path
+      ? "https://image.tmdb.org/t/p/w200" + movie.poster_path
+      : "";
+
+    const genres = movie.genre_ids
+      .map(id => genreMap[id] || "Unknown")
+      .join(", ");
+
+    const movieCard = document.createElement("div");
+    movieCard.className = "movieCard";
+
+    movieCard.innerHTML = `
+      <img src="${poster}" class="movieImage" />
+      <div class="movieDetails">
+        <a href="https://www.themoviedb.org/movie/${movie.id}" target="_blank" class="movieTitle">
+          ${movie.title}
+        </a>
+        <p class="movieRating">⭐ ${movie.vote_average}</p>
+        <p class="movieGenres">${genres}</p>
+        <button class="watchBtn">+ Watchlist</button>
+      </div>
+    `;
+
+    movieCard.querySelector(".watchBtn").addEventListener("click", () => {
+      addToWatchlist(movie);
+    });
+
+    movieDiv.appendChild(movieCard);
+  });
+});
 window.addEventListener("scroll", () => {
   console.log("scrolling...");
   if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
