@@ -6,6 +6,7 @@ let isLoading=false
 let isSearchMode = false;
 let currentQuery = "";
 let allLoadedMovies = [];
+let currentSort = "";
 const genreMap = {
   28: "Action",
   12: "Adventure",
@@ -90,22 +91,10 @@ function saveWatchlist(list) {
   localStorage.setItem("watchlist", JSON.stringify(list));
 }
 
-function addToWatchlist(movie) {
-  let list = getWatchlist();
-  if (list.some(item => item.id === movie.id)) {
-    alert("Already in watchlist 😄");
-    return;
-  }
 
-  list.push(movie);
-  saveWatchlist(list);
-
-  alert("Added to watchlist ✅");
-}
 
 //Event Listners
 //Infinite scroll Feature
-// ---- GENRE FILTER ----
 
 const genreFilter = document.getElementById("genreFilter");
 const badge = document.getElementById("activeFilterBadge");
@@ -115,14 +104,11 @@ genreFilter.addEventListener("change", () => {
   const selectedGenreName = genreFilter.options[genreFilter.selectedIndex].text;
 
   const movieDiv = document.getElementById("movies");
-  movieDiv.innerHTML = ""; // clear current display
+  movieDiv.innerHTML = ""; 
 
-  // Use .filter() HOF — filters from all loaded movies
   const filtered = selectedGenreId
     ? allLoadedMovies.filter(movie => movie.genre_ids.includes(selectedGenreId))
     : allLoadedMovies;
-
-  // Show badge
   if (selectedGenreId) {
     badge.textContent = `Showing: ${selectedGenreName} (${filtered.length} movies)`;
     badge.style.display = "block";
@@ -136,8 +122,6 @@ genreFilter.addEventListener("change", () => {
     </p>`;
     return;
   }
-
-  // Re-render filtered movies using .map() HOF
   filtered.map(movie => {
     const poster = movie.poster_path
       ? "https://image.tmdb.org/t/p/w200" + movie.poster_path
