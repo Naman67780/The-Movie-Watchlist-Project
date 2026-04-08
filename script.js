@@ -249,9 +249,13 @@ function renderWatchlist() {
       : "";
 
     item.innerHTML = `
-      <img src="${poster}" />
-      <p>${movie.title}</p>
-    `;
+  <img src="${poster}" />
+  <p>${movie.title}</p>
+  <button class="removeBtn">❌</button>
+`;
+item.querySelector(".removeBtn").addEventListener("click", () => {
+  removeFromWatchlist(movie.id);
+});
 
     container.appendChild(item);
   });
@@ -268,6 +272,14 @@ function addToWatchlist(movie) {
   saveWatchlist(list);
 
   renderWatchlist(); 
+}
+function removeFromWatchlist(id) {
+  let list = getWatchlist();
+
+  list = list.filter(movie => movie.id !== id);
+
+  saveWatchlist(list);
+  renderWatchlist();
 }
 const sortSelect = document.getElementById("sortSelect");
 
