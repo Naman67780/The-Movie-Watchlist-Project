@@ -8,6 +8,62 @@ This project focuses on implementing core web development concepts such as API i
 
 ---
 
+## 🚀 Features
+
+### 🔍 Smart Search System
+- Search movies dynamically using keywords
+- Supports:
+  - **Search Mode**
+  - **Browse Mode**
+- Maintains query state for a smoother experience
+
+---
+
+### 📄 Pagination & Infinite Loading
+- Movies are loaded page-by-page
+- Prevents duplicate API calls using `isLoading`
+- Smooth browsing for large datasets
+
+---
+
+### 🎬 Movie Display UI
+- Movies displayed in a **responsive card layout**
+- Each card includes:
+  - Poster  
+  - Title  
+  - Rating  
+  - Release Year  
+
+---
+
+### ⭐ Watchlist Management
+- Add/remove movies to/from watchlist
+- Stored using **localStorage**
+- Updates instantly without refresh
+
+---
+
+### 🎯 Filtering System
+- Client-side filtering by:
+  - Rating  
+  - Year  
+- Easily extendable
+
+---
+
+### 📭 Empty States Handling
+- Shows meaningful UI when:
+  - No search results found  
+  - Watchlist is empty  
+
+---
+
+### 🎲 Random Movie Picker (Optional)
+- Picks a random movie from the watchlist
+- Helps users decide what to watch
+
+---
+
 ## 🎯 Purpose of the Project
 
 * To help users **search and explore movies**
@@ -19,7 +75,7 @@ This project focuses on implementing core web development concepts such as API i
 
 ## 🔌 API Used
 
-### OMDb API (Open Movie Database)
+### TMDb API (Open Movie Database)
 
 * API Link: https://developer.themoviedb.org/docs/getting-started
 * The API provides:
@@ -94,8 +150,35 @@ The API will be used to fetch movie data based on user search queries.
 * **HTML** – Structure of the web page
 * **CSS** – Styling and layout
 * **JavaScript** – Functionality and API integration
-* **OMDb API** – Fetching movie data
+* **TMDb API** – Fetching movie data
 * **LocalStorage** – Saving user watchlist
+
+---
+
+## 🧠 Core Concepts Implemented
+
+- API Integration (TMDB)
+- Asynchronous JavaScript (`async/await`)
+- State Management:
+  - `page`
+  - `isLoading`
+  - `isSearchMode`
+  - `currentQuery`
+  - `allLoadedMovies`
+- Event Handling
+- LocalStorage Persistence
+- Conditional Rendering
+- Infinite Scroll / Load More
+
+---
+
+## 🎨 UI/UX Design
+
+- 🌙 Dark theme inspired by Netflix / Disney+
+- 📱 Responsive design
+- 🎯 Clean and minimal interface
+- ⚡ Smooth interactions
+- 📌 Sticky watchlist/sidebar
 
 ---
 
