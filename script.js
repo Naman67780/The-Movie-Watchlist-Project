@@ -1,7 +1,7 @@
 const API_KEY = "950726300c0085cae525f81415141462";
 const BASE_URL = "https://api.themoviedb.org/3";
 
-// Variables
+// Variable
 let page = 1;
 let isLoading = false;
 let isSearchMode = false;
@@ -15,8 +15,6 @@ const genreMap = {
   9648: "Mystery", 10749: "Romance", 878: "Science Fiction",
   10770: "TV Movie", 53: "Thriller", 10752: "War", 37: "Western"
 };
-
-// DOM Elements
 const moviesDiv = document.getElementById("movies");
 const genreFilter = document.getElementById("genreFilter");
 const badge = document.getElementById("activeFilterBadge");
@@ -79,8 +77,6 @@ function removeLoadingIndicator() {
   const loader = document.getElementById("loader");
   if (loader) loader.remove();
 }
-
-// FIXED renderMovieCard
 function renderMovieCard(movie) {
   const poster = movie.poster_path 
     ? `https://image.tmdb.org/t/p/w200${movie.poster_path}` 
@@ -109,15 +105,11 @@ function renderMovieCard(movie) {
   `;
 
   moviesDiv.appendChild(movieCard);
-
-  // Watchlist button
   const watchBtn = movieCard.querySelector(".watchBtn");
   watchBtn.addEventListener("click", (e) => {
     e.stopImmediatePropagation();
     addToWatchlist(movie);
   });
-
-  // Make entire card clickable
   movieCard.style.cursor = "pointer";
   movieCard.addEventListener("click", (e) => {
     if (e.target.closest(".watchBtn")) return;
@@ -212,8 +204,6 @@ function showToast(message) {
     setTimeout(() => toast.remove(), 400);
   }, 2500);
 }
-
-// Genre Filter, Search, Sort, Infinite Scroll, Sidebar... (rest remains same)
 genreFilter.addEventListener("change", () => {
   const selectedGenreId = Number(genreFilter.value);
   const selectedGenreName = genreFilter.options[genreFilter.selectedIndex].text;
