@@ -1,5 +1,5 @@
 const API_KEY = "950726300c0085cae525f81415141462";
-const BASE_URL = "https://api.themoviedb.org/3";
+const BASE_URL = "https://api.themoviedb.org/3";//My url for the tmdb site
 
 // Variable
 let page = 1;
